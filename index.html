@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muthu Sivakami — PHP Backend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1418;
+    --surface:#161D22;
+    --surface-2:#1D262C;
+    --line:#2A343B;
+    --text:#E9EDEF;
+    --muted:#8C9A9F;
+    --amber:#E8A33D;
+    --teal:#4FA490;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+
+  /* ---------- Layout shell ---------- */
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    padding:88px 0 64px;
+    border-bottom:1px solid var(--line);
+  }
+  .status-row{
+    display:flex; align-items:center; gap:8px;
+    font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:26px;
+  }
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 0 0 rgba(79,164,144,.5);
+    animation:pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(79,164,144,.45);}
+    70%{box-shadow:0 0 0 8px rgba(79,164,144,0);}
+    100%{box-shadow:0 0 0 0 rgba(79,164,144,0);}
+  }
+  h1.name{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(38px, 6vw, 62px);
+    line-height:1.05;
+    letter-spacing:-.01em;
+  }
+  h1.name span{color:var(--amber); font-style:italic;}
+  .role{
+    margin-top:14px;
+    font-size:clamp(16px,2.4vw,20px);
+    color:var(--muted);
+    font-weight:500;
+  }
+  .intro{
+    margin-top:28px;
+    max-width:620px;
+    font-size:15.5px;
+    color:#C7D0D3;
+  }
+  .meta-strip{
+    margin-top:34px;
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    padding:7px 12px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    color:var(--muted);
+    background:var(--surface);
+  }
+
+  /* ---------- Section heading ---------- */
+  .section-label{
+    padding:56px 0 0;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  .section-label .mono{
+    font-size:12px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase;
+  }
+  .section-label::after{
+    content:''; flex:1; height:1px; background:var(--line);
+  }
+
+  /* ---------- Project card ---------- */
+  .project{
+    padding:40px 0 56px;
+    border-bottom:1px solid var(--line);
+  }
+  .project:last-of-type{border-bottom:none;}
+  .project-head{
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:18px 40px;
+    margin-bottom:20px;
+  }
+  .project-title{
+    font-family:'Fraunces', serif;
+    font-size:clamp(22px,3vw,30px);
+    font-weight:500;
+  }
+  .project-org{
+    color:var(--amber);
+    font-size:13px;
+    font-family:'IBM Plex Mono', monospace;
+    margin-top:6px;
+    letter-spacing:.02em;
+  }
+  .project-desc{
+    max-width:640px;
+    color:#C7D0D3;
+    font-size:14.5px;
+    margin-bottom:16px;
+  }
+  .tech-row{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-bottom:26px;
+  }
+  .tech{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--teal);
+    background:rgba(79,164,144,.08);
+    border:1px solid rgba(79,164,144,.25);
+    padding:4px 10px;
+    border-radius:4px;
+  }
+
+  /* ---------- Gallery: 5 small images per project ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:10px;
+  }
+  .shot{
+    aspect-ratio:4/3;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+    position:relative;
+    display:flex; flex-direction:column;
+  }
+  .shot-bar{
+    height:16px;
+    background:var(--surface-2);
+    display:flex; align-items:center; gap:3px;
+    padding:0 7px;
+    flex-shrink:0;
+  }
+  .shot-bar span{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--line);
+  }
+  .shot-body{
+    flex:1;
+    display:flex; align-items:center; justify-content:center;
+    padding:8px;
+  }
+  .shot-lines{width:100%; display:flex; flex-direction:column; gap:5px;}
+  .shot-lines i{
+    display:block; height:4px; border-radius:2px;
+    background:var(--line);
+  }
+  .shot-lines i:nth-child(1){width:70%; background:var(--muted); opacity:.5;}
+  .shot-lines i:nth-child(2){width:100%;}
+  .shot-lines i:nth-child(3){width:85%;}
+  .shot-lines i:nth-child(4){width:55%; margin-top:4px; background:var(--amber); opacity:.55;}
+  .shot-caption{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--muted);
+    text-align:center;
+    padding:6px 4px 8px;
+    letter-spacing:.02em;
+  }
+  .shot-body.shot-img{padding:0;}
+  .shot-body.shot-img img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    cursor:zoom-in;
+    transition:opacity .15s ease;
+  }
+  .shot-body.shot-img img:hover{opacity:.85;}
+
+  /* ---------- Lightbox ---------- */
+  .lightbox-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(6,9,11,.9);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+    cursor:zoom-out;
+  }
+  .lightbox-overlay.active{display:flex;}
+  .lightbox-overlay img{
+    max-width:90vw;
+    max-height:88vh;
+    border-radius:10px;
+    border:1px solid var(--line);
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+  .lightbox-caption{
+    position:absolute;
+    bottom:28px;
+    left:0; right:0;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+  .lightbox-close{
+    position:absolute;
+    top:20px; right:26px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:6px 14px;
+    background:var(--surface);
+    cursor:pointer;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:50px 0 70px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:900px){
+    .gallery{grid-template-columns:repeat(3, 1fr);}
+  }
+  @media (max-width:640px){
+    header.hero{padding:56px 0 44px;}
+    .wrap{padding:0 20px;}
+    .gallery{grid-template-columns:repeat(2, 1fr);}
+    .shot-caption{font-size:9.5px;}
+    .project{padding:30px 0 40px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="status-row"><span class="dot"></span> Available for backend engineering work</div>
+    <h1 class="name">Muthu <span>Sivakami</span></h1>
+    <div class="role">PHP Backend Developer — Kanyakumari, Tamil Nadu</div>
+    <p class="intro">
+      I build the systems that run behind the counter, the front desk, and the accounts ledger —
+      fee management, inventory, memberships, and donation reporting for schools, mills, missions,
+      and organisations across Tamil Nadu. Two-plus years deep in Core PHP, Laravel, Yii2, and MySQL,
+      turning messy paper-and-spreadsheet processes into working software people actually use.
+    </p>
+    <div class="meta-strip">
+      <span class="chip">Core PHP · Laravel · Yii2</span>
+      <span class="chip">MySQL / MySQLi / PDO</span>
+      <span class="chip">REST APIs</span>
+      <span class="chip">jQuery · AJAX · Bootstrap</span>
+      <span class="chip">BCA — Manonmaniam Sundaranar University</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="section-label"><span class="mono">Projects</span></div>
+
+  <!-- PROJECT 1 -->
+  <section class="project">
+    <div class="project-head">
+      <div>
+        <div class="project-title">Navisailor Admin Panel</div>
+        <div class="project-org">Navisailor Learning Centre — maritime training institute</div>
+      </div>
+    </div>
+    <p class="project-desc">
+      A full admin panel for a maritime training centre: student and faculty records, a
+      Quality Management System with a three-level category → sub-category → PDF document
+      hierarchy, and a feedback module with MCQ/rating/yes-no questions and auto-grading.
+      Built around a shared sidebar and navbar so every page stays consistent.
+    </p>
+    <div class="tech-row">
+      <span class="tech">PHP / MySQLi</span><span class="tech">jQuery AJAX</span><span class="tech">Bootstrap</span><span class="tech">Modal-based CRUD</span>
+    </div>
+    <div class="gallery">
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/navisail/Dashboard.png" alt="Dashboard" loading="lazy"></div><div class="shot-caption">Dashboard</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/navisail/tree.png" alt="QMS document tree" loading="lazy"></div><div class="shot-caption">QMS document tree</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/navisail/Students.png" alt="Student records" loading="lazy"></div><div class="shot-caption">Student records</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/navisail/Feedback.png" alt="Feedback form" loading="lazy"></div><div class="shot-caption">Feedback form</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/navisail/Faculty.png" alt="Faculty page" loading="lazy"></div><div class="shot-caption">Faculty page</div></div>
+    </div>
+  </section>
+
+  <!-- PROJECT 2 -->
+  <section class="project">
+    <div class="project-head">
+      <div>
+        <div class="project-title">Fee Management System</div>
+        <div class="project-org">CSI Institute of Technology</div>
+      </div>
+    </div>
+    <p class="project-desc">
+      A school/college fee platform handling approval-based transactions, arrear reporting
+      with Excel export, and bilingual Tamil/English parent fee-intimation letters generated
+      as print-ready PDFs. Supports year-wise promotion of student records across two academic
+      year databases and gender-wise admissions breakdowns per course.
+    </p>
+    <div class="tech-row">
+      <span class="tech">Yii1</span><span class="tech">MySQL / PDO</span><span class="tech">PDF generation</span><span class="tech">Excel export</span>
+    </div>
+    <div class="gallery">
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/csi/Dashboard.png" alt="Dashboard" loading="lazy"></div><div class="shot-caption">Dashboard</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/csi/fees.png" alt="Fee transactions" loading="lazy"></div><div class="shot-caption">Fee transactions</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/csi/feereport.png" alt="Fee report" loading="lazy"></div><div class="shot-caption">Fee report</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/csi/hostel.png" alt="Hostel" loading="lazy"></div><div class="shot-caption">Hostel</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/csi/transport.png" alt="Transport" loading="lazy"></div><div class="shot-caption">Transport</div></div>
+    </div>
+  </section>
+
+  <!-- PROJECT 3 -->
+  <section class="project">
+    <div class="project-head">
+      <div>
+        <div class="project-title">Inventory & Production ERP</div>
+        <div class="project-org">SMR Foods Mills / Rathna Traders</div>
+      </div>
+    </div>
+    <p class="project-desc">
+      An inventory and production system for a foods mill: raw material stock reports with
+      closing-stock calculations, E-Way Bill print views, godown unload entries with lot
+      number generation, cold storage tracking, branch stock transfers, and purchase return
+      workflows with dual bag/kg inputs.
+    </p>
+    <div class="tech-row">
+      <span class="tech">Yii1</span><span class="tech">MySQL</span><span class="tech">Excel export</span><span class="tech">Print views</span>
+    </div>
+    <div class="gallery">
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/smr/report.png" alt="Stock report" loading="lazy"></div><div class="shot-caption">Stock report</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/smr/purchase.png" alt="Purchase" loading="lazy"></div><div class="shot-caption">Purchase</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/smr/unload.png" alt="Godown unload" loading="lazy"></div><div class="shot-caption">Godown unload</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/smr/factory.png" alt="Production" loading="lazy"></div><div class="shot-caption">Production</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/smr/issue.png" alt="Item Issue" loading="lazy"></div><div class="shot-caption">Item Issue</div></div>
+    </div>
+  </section>
+
+  <!-- PROJECT 4 -->
+  <section class="project">
+    <div class="project-head">
+      <div>
+        <div class="project-title">Power Engineering Solution</div>
+        <div class="project-org">SALES & PURCHASE</div>
+      </div>
+    </div>
+    <p class="project-desc">
+      A sales and purchase management system for a power-equipment dealer: quotation
+      creation and conversion to sales invoices, accessory-wise stock and pricing,
+      purchase entry against supplier bills, and a view-challans module for tracking
+      goods movement before final billing.
+    </p>
+    <div class="tech-row">
+      <span class="tech">Core PHP</span><span class="tech">MySQL</span><span class="tech">DataTables</span>
+    </div>
+    <div class="gallery">
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/power/Quotations.png" alt="Quotations" loading="lazy"></div><div class="shot-caption">Quotations</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/power/Sales-Invoices.png" alt="Sales Invoices" loading="lazy"></div><div class="shot-caption">Sales Invoices</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/power/Purchase-Entry.png" alt="Purchase Entry" loading="lazy"></div><div class="shot-caption">Purchase Entry</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/power/View-Challans.png" alt="View Challans" loading="lazy"></div><div class="shot-caption">View Challans</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/power/Accessories.png" alt="Accessories" loading="lazy"></div><div class="shot-caption">Accessories</div></div>
+    </div>
+  </section>
+
+  <!-- PROJECT 5 -->
+  <section class="project">
+    <div class="project-head">
+      <div>
+        <div class="project-title">Daybook & Accounts Reporting</div>
+        <div class="project-org">Christ Harvest Mission — NGO / donation management</div>
+      </div>
+    </div>
+    <p class="project-desc">
+      A daybook and accounts reporting module for an NGO's donation management system,
+      with date-filtered reporting and a custom two-column PDF layout built from
+      row-matched merged tables for reliable, print-ready statements.
+    </p>
+    <div class="tech-row">
+      <span class="tech">Yii1</span><span class="tech">PHP</span><span class="tech">PDF export</span><span class="tech">Date-range filtering</span>
+    </div>
+    <div class="gallery">
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/trust/donor.png" alt="Donor" loading="lazy"></div><div class="shot-caption">Donor</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/trust/book.png" alt="Accounts" loading="lazy"></div><div class="shot-caption">Accounts</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/trust/receipts.png" alt="Receipts" loading="lazy"></div><div class="shot-caption">Receipts</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/trust/daybook.png" alt="Report" loading="lazy"></div><div class="shot-caption">Report</div></div>
+      <div class="shot"><div class="shot-bar"><span></span><span></span><span></span></div><div class="shot-body shot-img"><img src="images/trust/deposit.png" alt="Deposit" loading="lazy"></div><div class="shot-caption">Deposit</div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Muthu Sivakami · PHP Backend Developer · Tamil Nadu, India</div>
+</footer>
+
+<div class="lightbox-overlay" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" type="button">Close ✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+  (function(){
+    var overlay = document.getElementById('lightbox');
+    var overlayImg = document.getElementById('lightbox-img');
+    var overlayCaption = document.getElementById('lightbox-caption');
+    var closeBtn = document.getElementById('lightbox-close');
+
+    function openLightbox(src, alt){
+      overlayImg.src = src;
+      overlayImg.alt = alt || '';
+      overlayCaption.textContent = alt || '';
+      overlay.classList.add('active');
+    }
+    function closeLightbox(){
+      overlay.classList.remove('active');
+      overlayImg.src = '';
+    }
+
+    document.querySelectorAll('.shot-body.shot-img img').forEach(function(img){
+      img.addEventListener('click', function(){
+        openLightbox(img.getAttribute('src'), img.getAttribute('alt'));
+      });
+    });
+
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) closeLightbox();
+    });
+    closeBtn.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeLightbox();
+    });
+  })();
+</script>
+
+</body>
+</html>
